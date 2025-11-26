@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Connecta_IPBVC.Views.EventoDetalhePage"
+             Title="EventoDetalhePage">
+	<ScrollView>
+		<VerticalStackLayout Padding="20" Spacing="15">
+
+			<Label Text="{Binding Evento.Titulo}"
+                   FontSize="26"
+                   FontAttributes="Bold" />
+
+			<Label Text="{Binding Evento.Data}"
+                   FontSize="18"
+                   TextColor="Gray" />
+
+			<Label Text="{Binding Evento.Local}"
+                   FontSize="18"
+                   TextColor="#2c7ef1" />
+
+			<Label Text="{Binding Evento.Descricao}"
+                   FontSize="16" />
+
+			<Button Text="Ver Anexos"
+                    Command="{Binding AbrirAnexosCommand}"
+                    BackgroundColor="#2c7ef1"
+                    TextColor="White"/>
+
+		</VerticalStackLayout>
+	</ScrollView>
+</ContentPage>

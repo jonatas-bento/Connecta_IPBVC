@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Connecta_IPBVC.Views.LoginPage"
+             Title="Login">
+	<VerticalStackLayout Padding="20" Spacing="15">
+
+		<Label Text="Tesouraria - Login"
+           HorizontalOptions="Center"
+           FontSize="24"/>
+
+		<Entry Placeholder="Email"
+           Text="{Binding Email}"
+           Keyboard="Email" />
+
+		<Entry Placeholder="Senha"
+           Text="{Binding Password}"
+           IsPassword="True" />
+
+		<Button Text="Entrar"
+            Command="{Binding LoginCommand}"
+            BackgroundColor="#2c7ef1"
+            TextColor="White"/>
+
+		<Button Text="Criar conta"
+            Command="{Binding GoToRegisterCommand}"
+            BackgroundColor="#cccccc"/>
+
+	</VerticalStackLayout>
+
+</ContentPage>
