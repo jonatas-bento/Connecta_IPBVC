@@ -9,7 +9,15 @@ namespace Connecta_IPBVC
 		public static MauiApp CreateMauiApp()
 		{
 			var builder = MauiApp.CreateBuilder();
-			builder.Services.AddSingleton<ApiClient>();
+
+			builder
+				.UseMauiApp<App>()
+				.ConfigureFonts(fonts =>
+				{
+					fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+					fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+				});
+            builder.Services.AddSingleton<ApiClient>();
 			builder.Services.AddSingleton<AuthService>();
 			builder.Services.AddSingleton<AgendaService>();
 
