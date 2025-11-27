@@ -15,23 +15,54 @@ namespace Connecta_IPBVC.Services
 			_client = client;
 		}
 
-		public async Task<string?> LoginAsync(LoginDTO dto)
-		{
-			var json = JsonSerializer.Serialize(dto);
-			var content = new StringContent(json, Encoding.UTF8, "application/json");
+        public async Task<string?> LoginAsync(LoginDTO dto)
+        {
+            try
+            {
+                // 1. Configura a serialização correta (camelCase)
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                    WriteIndented = true
+                };
 
-			var response = await _client.Http.PostAsync("MembroApp/login", content);
+                var json = JsonSerializer.Serialize(dto, options);
 
-			if (!response.IsSuccessStatusCode)
-				return null;
+                // Debug: Verifique se aqui aparece "senha" e não "password"
+                System.Diagnostics.Debug.WriteLine($"JSON ENVIADO: {json}");
 
-			var body = await response.Content.ReadAsStringAsync();
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-			using var doc = JsonDocument.Parse(body);
-			return doc.RootElement.GetProperty("token").GetString();
-		}
+                // 2. Tenta enviar (AQUI QUE ESTÁ O ERRO ATUAL)
+                var response = await _client.Http.PostAsync("MembroApp/login", content);
 
-		public async Task<string?> RegisterAsync(RegisterDTO dto)
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorMsg = await response.Content.ReadAsStringAsync();
+                    System.Diagnostics.Debug.WriteLine($"ERRO API ({response.StatusCode}): {errorMsg}");
+                    return null;
+                }
+
+                var body = await response.Content.ReadAsStringAsync();
+                using var doc = JsonDocument.Parse(body);
+
+                // Cuidado: Verifique se sua API retorna "token" minúsculo ou maiúsculo
+                if (doc.RootElement.TryGetProperty("token", out var tokenElement))
+                {
+                    return tokenElement.GetString();
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                // 3. COLOQUE O BREAKPOINT AQUI NESTA LINHA ABAIXO
+                System.Diagnostics.Debug.WriteLine($"EXCEÇÃO FATAL: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<string?> RegisterAsync(RegisterDTO dto)
 		{
 			var json = JsonSerializer.Serialize(dto);
 			var content = new StringContent(json, Encoding.UTF8, "application/json");
