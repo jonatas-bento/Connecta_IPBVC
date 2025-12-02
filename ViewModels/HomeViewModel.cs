@@ -8,24 +8,23 @@ using Connecta_IPBVC.Views;
 
 namespace Connecta_IPBVC.ViewModels
 {
-	public class HomeViewModel : BindableObject
-	{
+    public class HomeViewModel : BindableObject
+    {
+        private readonly AgendaService _agenda;
 
+        public List<AgendaEventoDTO> EventosDaSemana { get; set; }
 
-		public List<EventoDTO> EventosDaSemana { get; set; } = new();
+        public HomeViewModel(AgendaService agenda)
+        {
+            _agenda = agenda;
+            CarregarEventos();
+        }
 
-		private readonly AgendaService _agenda;
+        private async void CarregarEventos()
+        {
+            EventosDaSemana = await _agenda.GetEventosFuturosAsync();
+            OnPropertyChanged(nameof(EventosDaSemana));
+        }
+    }
 
-		public HomeViewModel(AgendaService agenda)
-		{
-			_agenda = agenda;
-			CarregarEventos();
-		}
-
-		private async void CarregarEventos()
-		{
-			EventosDaSemana = await _agenda.GetEventosFuturosAsync();
-			OnPropertyChanged(nameof(EventosDaSemana));
-		}
-	}
 }

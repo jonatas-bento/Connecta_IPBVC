@@ -3,39 +3,78 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Connecta_IPBVC.Views.HomePage"
              Title="HomePage">
-	<ScrollView>
-		<VerticalStackLayout Padding="20" Spacing="20">
+    <Grid>
+        <Image Source="ipbimage.jpeg" 
+            Aspect="AspectFill"
+            Opacity="0.4"  
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand" />
 
-			<Label Text="Programação da Semana"
-                   FontSize="26"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center" />
+        <StackLayout Padding="35" HorizontalOptions="Center" VerticalOptions="FillAndExpand">
 
-			<CollectionView ItemsSource="{Binding EventosDaSemana}">
-				<CollectionView.ItemTemplate>
-					<DataTemplate>
-						<Frame CornerRadius="10" Padding="15" Margin="0,10"
-                               BackgroundColor="#f4f4f4">
-							<VerticalStackLayout>
 
-								<Label Text="{Binding Titulo}"
-                                       FontSize="20"
-                                       FontAttributes="Bold" />
 
-								<Label Text="{Binding DataHoraFormatada}"
-                                       FontSize="16"
-                                       TextColor="Gray" />
+            <Label Text="Sejam bem vindos!"
+               Margin="30"
+               FontSize="24"
+               FontFamily="OpenSansBold"
+               HorizontalOptions="Center"
+               TextColor="DarkSlateGray" />
 
-								<Label Text="{Binding Local}"
-                                       FontSize="16"
-                                       TextColor="#2c7ef1" />
+            <Grid RowSpacing="20" ColumnSpacing="20" Padding="20">
 
-							</VerticalStackLayout>
-						</Frame>
-					</DataTemplate>
-				</CollectionView.ItemTemplate>
-			</CollectionView>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-		</VerticalStackLayout>
-	</ScrollView>
+
+
+                <Button Text="Eventos"
+                    x:Name="Reserva"
+                    Clicked="OnEventsClicked"
+                    FontSize="14"
+                    BackgroundColor="#007ACC"
+                    TextColor="White"
+                    HeightRequest="120"
+                    WidthRequest="120"
+                    CornerRadius="10"
+                    Grid.Row="0" Grid.Column="0" />
+
+                <Button Text="Criar Eventos"
+                     x:Name="BtnCriarEvento"
+                    Clicked="OnCreateEventClicked"
+                    FontSize="14"
+                    BackgroundColor="#32A852"
+                    TextColor="White"
+                    HeightRequest="120"
+                    WidthRequest="120"
+                    CornerRadius="10"
+                    Grid.Row="0" Grid.Column="1" />
+
+                <Button Text="Aniversariantes"
+                    Clicked="OnBirthdayClicked"
+                    FontSize="13" 
+                    BackgroundColor="#D35400"
+                    TextColor="White"
+                    HeightRequest="120"
+                    WidthRequest="120"
+                    CornerRadius="10"
+                    Grid.Row="1" Grid.Column="0" />
+
+                <Button Text="Cadastro"
+                    FontSize="14"
+                    BackgroundColor="#8E44AD"
+                    TextColor="White"
+                    HeightRequest="120"
+                    WidthRequest="120"
+                    CornerRadius="10"
+                    Grid.Row="1" Grid.Column="1" />
+            </Grid>
+        </StackLayout>
+    </Grid>
 </ContentPage>

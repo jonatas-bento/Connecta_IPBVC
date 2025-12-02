@@ -1,0 +1,75 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Connecta_IPBVC.Views.CriarEventoPage"
+             Title="Criar Evento">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Entry Placeholder="Título"
+                   Text="{Binding Titulo}" />
+
+            <Editor Placeholder="Descrição"
+                    AutoSize="TextChanges"
+                    Text="{Binding Descricao}" />
+
+            <Entry Placeholder="Local"
+                   Text="{Binding Local}" />
+
+
+            <!-- DATA E HORA INÍCIO -->
+            <Label Text="Início" FontAttributes="Bold"/>
+            <DatePicker Date="{Binding DataInicio}" />
+            <TimePicker Time="{Binding DataInicio}" />
+
+
+            <!-- DATA E HORA FIM -->
+            <Label Text="Fim" FontAttributes="Bold"/>
+            <DatePicker Date="{Binding DataFim}" />
+            <TimePicker Time="{Binding DataFim}" />
+
+
+            <!-- EVENTO GERAL -->
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Evento Geral?" VerticalOptions="Center" />
+                <Switch IsToggled="{Binding EhGeral}" />
+            </StackLayout>
+
+
+            <!-- FEDERAÇÕES -->
+            <Label Text="Federações" FontAttributes="Bold" />
+
+            <HorizontalStackLayout Spacing="10">
+                <CheckBox IsChecked="{Binding IsUPH}" />
+                <Label Text="UPH" VerticalOptions="Center" />
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout Spacing="10">
+                <CheckBox IsChecked="{Binding IsSAF}" />
+                <Label Text="SAF" VerticalOptions="Center" />
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout Spacing="10">
+                <CheckBox IsChecked="{Binding IsUMP}" />
+                <Label Text="UMP" VerticalOptions="Center" />
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout Spacing="10">
+                <CheckBox IsChecked="{Binding IsUPA}" />
+                <Label Text="UPA" VerticalOptions="Center" />
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout Spacing="10">
+                <CheckBox IsChecked="{Binding IsUCP}" />
+                <Label Text="UCP" VerticalOptions="Center" />
+            </HorizontalStackLayout>
+
+
+            <Button Text="Criar Evento"
+                    BackgroundColor="#007ACC"
+                    TextColor="White"
+                    Command="{Binding CriarEventoCommand}" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

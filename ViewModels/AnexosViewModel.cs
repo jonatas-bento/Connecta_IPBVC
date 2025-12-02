@@ -18,7 +18,7 @@ namespace Connecta_IPBVC.ViewModels
 			Carregar(eventoId);
 		}
 
-		public List<AnexoDTO> Anexos { get; set; }
+		public List<AgendaEventoAnexoDTO> Anexos { get; set; }
 
 		public ICommand AbrirAnexoCommand => new Command<string>(async (url) =>
 		{

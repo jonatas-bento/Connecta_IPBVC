@@ -27,8 +27,8 @@ namespace Connecta_IPBVC.ViewModels
 		{
 			var dto = new RegisterDTO
 			{
-				NomeCompleto = NomeCompleto,
-				Celular = Celular,
+				Nome = NomeCompleto,
+				//Celular = Celular,
 				Email = Email,
 				Password = Password
 			};

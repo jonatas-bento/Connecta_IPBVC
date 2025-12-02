@@ -1,17 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿namespace Connecta_IPBVC;
 
-namespace Connecta_IPBVC
+public partial class App : Application
 {
-    public partial class App : Application
+    public App()
     {
-        public App()
-        {
-            InitializeComponent();
-        }
-
-        protected override Window CreateWindow(IActivationState? activationState)
-        {
-            return new Window(new AppShell());
-        }
+        InitializeComponent();
+        MainPage = new LoginShell();
     }
 }

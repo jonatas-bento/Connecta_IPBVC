@@ -6,12 +6,18 @@ namespace Connecta_IPBVC.Views;
 
 public partial class EventoDetalhePage : ContentPage
 {
-	public EventoDetalhePage(int eventoId)
-	{
-		InitializeComponent();
-		BindingContext = new EventoDetalheViewModel(
-			MauiProgram.Services.GetRequiredService<AgendaService>(),
-			eventoId
-		);
-	}
+    private readonly EventoDetalheViewModel _vm;
+
+    public EventoDetalhePage(EventoDetalheViewModel vm)
+    {
+        InitializeComponent();
+        BindingContext = vm;
+        _vm = vm;
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await _vm.LoadAsync();
+    }
 }

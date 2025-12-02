@@ -6,21 +6,25 @@
 	<ScrollView>
 		<VerticalStackLayout Padding="20" Spacing="15">
 
-			<CollectionView ItemsSource="{Binding Anexos}">
-				<CollectionView.ItemTemplate>
-					<DataTemplate>
-						<Frame Padding="10" BackgroundColor="#eeeeee" CornerRadius="10">
-							<VerticalStackLayout>
-								<Label Text="{Binding FileName}" FontSize="18" />
-								<Button Text="Abrir"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:AnexosPage}}, Path=BindingContext.AbrirAnexoCommand}"
-                                        CommandParameter="{Binding Url}" />
-							</VerticalStackLayout>
-						</Frame>
-					</DataTemplate>
-				</CollectionView.ItemTemplate>
-			</CollectionView>
+            <CollectionView ItemsSource="{Binding Anexos}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="10" BackgroundColor="#eeeeee" CornerRadius="10">
+                            <VerticalStackLayout Spacing="5">
 
-		</VerticalStackLayout>
+                                <Label Text="{Binding NomeArquivoOriginal}"
+                           FontSize="18" />
+
+                                <Button Text="Abrir"
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:AnexosPage}}, Path=BindingContext.AbrirAnexoCommand}"
+                            CommandParameter="{Binding Url}" />
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+
+        </VerticalStackLayout>
 	</ScrollView>
 </ContentPage>

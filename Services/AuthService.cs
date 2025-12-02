@@ -1,81 +1,65 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Connecta_IPBVC.Models;
+using Connecta_IPBVC.Services;
 using System.Text;
 using System.Text.Json;
-using Connecta_IPBVC.Models;
 
-namespace Connecta_IPBVC.Services
+public class AuthService
 {
-	public class AuthService
-	{
-		private readonly ApiClient _client;
+    private readonly ApiClient _client;
 
-		public AuthService(ApiClient client)
-		{
-			_client = client;
-		}
+    public AuthService(ApiClient client)
+    {
+        _client = client;
+    }
 
-        public async Task<string?> LoginAsync(LoginDTO dto)
+    public async Task<string?> LoginAsync(LoginDTO dto)
+    {
+        var json = JsonSerializer.Serialize(dto);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var response = await _client.Http.PostAsync("MembroApp/login", content);
+
+        if (!response.IsSuccessStatusCode)
+            return null;
+
+        var body = await response.Content.ReadAsStringAsync();
+        using var doc = JsonDocument.Parse(body);
+        return doc.RootElement.GetProperty("token").GetString();
+    }
+
+    public async Task<string?> RegisterAsync(RegisterDTO dto)
+    {
+        try
         {
-            try
+
+            var options = new JsonSerializerOptions
             {
-                // 1. Configura a serialização correta (camelCase)
-                var options = new JsonSerializerOptions
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                    WriteIndented = true
-                };
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = true
+            };
 
-                var json = JsonSerializer.Serialize(dto, options);
+            var json = JsonSerializer.Serialize(dto, options);
 
-                // Debug: Verifique se aqui aparece "senha" e não "password"
-                System.Diagnostics.Debug.WriteLine($"JSON ENVIADO: {json}");
+            // Debug: Verifique se aqui aparece "senha" e não "password"
+            System.Diagnostics.Debug.WriteLine($"JSON ENVIADO: {json}");
 
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                // 2. Tenta enviar (AQUI QUE ESTÁ O ERRO ATUAL)
-                var response = await _client.Http.PostAsync("MembroApp/login", content);
+        var response = await _client.Http.PostAsync("MembroApp/register", content);
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    var errorMsg = await response.Content.ReadAsStringAsync();
-                    System.Diagnostics.Debug.WriteLine($"ERRO API ({response.StatusCode}): {errorMsg}");
-                    return null;
-                }
+            if (!response.IsSuccessStatusCode)
+                //Catch the exception - return the message - how to go to exception message?
+                throw new Exception("Erro ao registrar usuário: " + response.ReasonPhrase);
 
-                var body = await response.Content.ReadAsStringAsync();
-                using var doc = JsonDocument.Parse(body);
 
-                // Cuidado: Verifique se sua API retorna "token" minúsculo ou maiúsculo
-                if (doc.RootElement.TryGetProperty("token", out var tokenElement))
-                {
-                    return tokenElement.GetString();
-                }
-
-                return null;
-            }
-            catch (Exception ex)
-            {
-                // 3. COLOQUE O BREAKPOINT AQUI NESTA LINHA ABAIXO
-                System.Diagnostics.Debug.WriteLine($"EXCEÇÃO FATAL: {ex.Message}");
-                return null;
-            }
+            var body = await response.Content.ReadAsStringAsync();
+        using var doc = JsonDocument.Parse(body);
+        return doc.RootElement.GetProperty("token").GetString();
         }
+        catch (Exception ex)
+        {
 
-        public async Task<string?> RegisterAsync(RegisterDTO dto)
-		{
-			var json = JsonSerializer.Serialize(dto);
-			var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-			var response = await _client.Http.PostAsync("MembroApp/register", content);
-
-			if (!response.IsSuccessStatusCode)
-				return null;
-
-			var body = await response.Content.ReadAsStringAsync();
-
-			using var doc = JsonDocument.Parse(body);
-			return doc.RootElement.GetProperty("token").GetString();
-		}
-	}
+            throw new Exception(ex.Message);
+        }
+    }
 }

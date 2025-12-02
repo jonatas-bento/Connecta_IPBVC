@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Connecta_IPBVC.Views.EventosPage"
+             xmlns:vm="clr-namespace:Connecta_IPBVC.ViewModels"
+             xmlns:DataType="vm:EventosViewModel"
+             x:Name="Root"
+             Title="EventosPage">
+    <ContentPage.Content>
+        <Grid RowDefinitions="Auto,*">
+
+            <!-- Indicador de carregamento -->
+            <ActivityIndicator 
+                IsRunning="{Binding IsBusy}" 
+                IsVisible="{Binding IsBusy}"
+                Margin="0,10" />
+
+            <!-- Lista de eventos -->
+            <CollectionView
+    Grid.Row="1"
+    ItemsSource="{Binding Eventos}"
+    SelectionMode="Single"
+    SelectionChangedCommand="{Binding AbrirDetalhesAsyncCommand}"
+    SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference RootCollection}}"
+>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Margin="10" Padding="10" HasShadow="True" CornerRadius="8">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding Titulo}" 
+                                           FontAttributes="Bold"
+                                           FontSize="16" />
+                                    <Label Text="{Binding DataInicio, StringFormat='{}{0:dd/MM/yyyy HH:mm}'}"
+                                           FontSize="12"
+                                           TextColor="Gray" />
+                                    <Label Text="{Binding Local}"
+                                           FontSize="12" 
+                                           TextColor="Gray" />
+                                </VerticalStackLayout>
+
+                                <Button 
+                                    Grid.Column="1"
+                                    Text="Detalhes"
+                                    Command="{Binding Source={x:Reference Root}, Path=BindingContext.AbrirDetalhesAsyncCommand}"
+                                    CommandParameter="{Binding}" />
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
